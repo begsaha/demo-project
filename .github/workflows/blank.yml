@@ -48,6 +48,7 @@ jobs:
   job_1:
    name: Download artifact
    needs: build
+   runs-on: ubuntu-latest
    steps:
      - name: Download a single artifact
        uses: actions/download-artifact@v3
