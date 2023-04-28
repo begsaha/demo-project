@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: my_file.txt
+          path: my-artifact.txt
           retention-days: 5
   job_1:
    name: Download artifact
