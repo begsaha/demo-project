@@ -45,7 +45,11 @@ jobs:
           name: my-artifact
           path: my_file.txt
           retention-days: 5
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: my-artifact
+  job_1:
+   name: Download artifact
+   needs: build
+   steps:
+     - name: Download a single artifact
+       uses: actions/download-artifact@v3
+       with:
+         name: my-artifact
