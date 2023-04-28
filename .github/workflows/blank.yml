@@ -15,42 +15,43 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Creates a  docker image
-#      - uses: mr-smithers-excellent/docker-build-push@v6
-#        name: Build & push Docker image
-#        with:
-#          image: begsaha/demo-project
-#          tags: v1, latest
-#          registry: docker.io
-#          dockerfile: Dockerfile
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
-        with:
-          name: my-artifact
-          path: my-artifact.txt
-          retention-days: 5
   job_1:
+    # This workflow contains a single job called "build"
+    build:
+      # The type of runner that the job will run on
+      runs-on: ubuntu-latest
+
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v3
+
+        # Runs a single command using the runners shell
+        - name: Run a one-line script
+          run: echo Hello, world!
+
+        # Creates a  docker image
+        #      - uses: mr-smithers-excellent/docker-build-push@v6
+        #        name: Build & push Docker image
+        #        with:
+        #          image: begsaha/demo-project
+        #          tags: v1, latest
+        #          registry: docker.io
+        #          dockerfile: Dockerfile
+        #          username: ${{ secrets.DOCKER_USERNAME }}
+        #          password: ${{ secrets.DOCKER_PASSWORD }}
+        - name: 'Upload Artifact'
+          uses: actions/upload-artifact@v3
+          with:
+            name: myartifact
+            path: my-artifact.txt
+            retention-days: 5
+  job_2:
    name: Download artifact
-   needs: build
+   needs: job_1
    runs-on: ubuntu-latest
    steps:
      - name: Download a single artifact
        uses: actions/download-artifact@v3
        with:
-         name: my-artifact
+         name: myartifact
