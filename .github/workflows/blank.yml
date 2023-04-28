@@ -28,7 +28,10 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
+      #create the path
+      - run: mkdir -p path/to/artifact
 
+      - run: echo hello > path/to/artifact/myartifact.txt
       # Creates a  docker image
 #      - uses: mr-smithers-excellent/docker-build-push@v6
 #        name: Build & push Docker image
@@ -43,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: myartifact
-          path: |#path/to/artifact
+          path: path/to/artifact/myartifact.txt
 #          retention-days: 5
   job_1:
    name: Download artifact
