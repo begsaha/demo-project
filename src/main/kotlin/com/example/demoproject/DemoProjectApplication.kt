@@ -12,6 +12,7 @@ class DemoProjectApplication
 @GetMapping("/version")
 fun getVersion():String{
 	return "version"
+
 }
 
 fun main(args: Array<String>) {
