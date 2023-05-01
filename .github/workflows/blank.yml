@@ -44,6 +44,11 @@ jobs:
 #          dockerfile: Dockerfile
 #          username: ${{ secrets.DOCKER_USERNAME }}
 #          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: log newly committed messages
+        env:
+          BEFORE_REF: ${{ github.event.before }}
+          AFTER_REF: ${{ github.event.after }}
+        run: git log --pretty=format:%s "$BEFORE_REF...$AFTER_REF"
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
         with:
@@ -73,8 +78,3 @@ jobs:
 #        run: |
 #          git diff --name-only ${{ github.event.before }} ${{ github.event.after }}
 #          git log --pretty=oneline "$BEFORE_REF...$AFTER_REF" | wc -l.
-     - name: log newly committed messages
-       env:
-         BEFORE_REF: ${{ github.event.before }}
-         AFTER_REF: ${{ github.event.after }}
-       run: git log --pretty=format:%s "$BEFORE_REF...$AFTER_REF"
