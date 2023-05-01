@@ -57,3 +57,22 @@ jobs:
        uses: actions/download-artifact@v2
        with:
          name: myartifact
+# ==================================================
+#on:
+#  push:
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#        with:
+#          fetch-depth: 0  ##
+#      - name: get file changes
+#        run: |
+#          git diff --name-only ${{ github.event.before }} ${{ github.event.after }}
+#          git log --pretty=oneline "$BEFORE_REF...$AFTER_REF" | wc -l.
+     - name: log newly committed messages
+       env:
+         BEFORE_REF: ${{ github.event.before }}
+         AFTER_REF: ${{ github.event.after }}
+       run: git log --pretty=format:%s "$BEFORE_REF...$AFTER_REF"
