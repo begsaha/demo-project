@@ -78,7 +78,6 @@ jobs:
           asset_path: ./build/libs/demo-project-0.0.1-SNAPSHOT.jar
           asset_name: demo-project-0.0.1-SNAPSHOT.jar
           asset_content_type: application/java-archive
-        needs: create_release
 
 
   job_1:
