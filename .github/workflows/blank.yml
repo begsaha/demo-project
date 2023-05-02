@@ -56,6 +56,18 @@ jobs:
         with:
           name: myartifact
           path: path/to/artifact/myartifact.txt
+      - name: Create a Release
+        if: github.event_name == 'push' && github.reg == 'refs/heads/main'
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOCKEN: ${{secretes.GITHUB_TOKEN}}
+        with:
+          tag_name: ${{github.ref}}
+          release_name: Release ${{github.ref}}
+          draft: false
+          prerelease: false
+
 #          retention-days: 5
   job_1:
    name: Download artifact
