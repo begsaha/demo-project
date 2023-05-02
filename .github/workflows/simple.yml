@@ -10,3 +10,8 @@ jobs:
         run: |   # | this is pipe and to run multiline commands
           node -v
           npm -v
+      - name: python platform
+        run: |
+          import platform
+          print(platform.processor())
+        shell: python # telling github to run above commands not in bash shell but in python shell
