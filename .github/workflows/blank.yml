@@ -56,6 +56,7 @@ jobs:
         with:
           name: myartifact
           path: path/to/artifact/myartifact.txt
+
       - name: Create a Release
         if: github.event_name == 'push' && github.reg == 'refs/heads/main'
         id: create_release
@@ -73,7 +74,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-#          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./build/libs/demo-project-0.0.1-SNAPSHOT.jar
           asset_name: demo-project-0.0.1-SNAPSHOT.jar
           asset_content_type: application/java-archive
