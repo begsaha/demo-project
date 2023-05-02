@@ -1,6 +1,34 @@
 name: Actions workflow
 
-on: [push]
+#on: [push]
+on:
+  push:
+    branches:
+      - main
+      - 'feature/*'            #matches anything with feature/featA feature/featB
+      - 'feature/**'           #matches anything like: feature/featA/a    feature/featB/b
+      - '!feature/featC'
+    tags:
+      - v1.*
+#    path:
+#      - '**.js'    #    # this path will run the workflow only any changes in js file not other file
+#    path-ignore:
+#      - 'docs/**'
+
+
+
+  #  repository_dispatch:
+#    types: [build]
+#    steps:
+#      - name: payload
+#        run: echo "${{github.event.client_payload.env}}"
+
+#  schedule:
+#    - corn: "0 * * * 6" # "minute hour dayOfMonth month dayOfWeek"  *  means any value   0/15 means every 15 minutes
+#  push:
+  pull_request:
+    types: [closed, assigned, opened, reopened]
+
 
 jobs:
   run-github-actions:
