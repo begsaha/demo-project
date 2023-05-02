@@ -56,11 +56,11 @@ jobs:
         with:
           name: myartifact
           path: path/to/artifact/myartifact.txt
-
+#          retention-days: 5
       - name: Create a Release
         if: github.event_name == 'push' && github.reg == 'refs/heads/main'
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v2
         env:
           GITHUB_TOCKEN: ${{secrets.GITHUB_TOKEN}}
         with:
@@ -70,7 +70,7 @@ jobs:
           prerelease: false
 
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -79,7 +79,7 @@ jobs:
           asset_name: demo-project-0.0.1-SNAPSHOT.jar
           asset_content_type: application/java-archive
 
-#          retention-days: 5
+
   job_1:
    name: Download artifact
    needs: build
