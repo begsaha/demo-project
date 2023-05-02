@@ -68,6 +68,16 @@ jobs:
           draft: false
           prerelease: false
 
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/libs/demo-project-0.0.1-SNAPSHOT.jar
+          asset_name: demo-project-0.0.1-SNAPSHOT.jar
+          asset_content_type: application/java-archive
+
 #          retention-days: 5
   job_1:
    name: Download artifact
