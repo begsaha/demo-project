@@ -15,3 +15,11 @@ jobs:
           import platform
           print(platform.processor())
         shell: python # telling github to run above commands not in bash shell but in python shell
+  run-windows-command:
+    runs-on: windows-latest
+    steps:
+      - name: Directory-powershell
+        run: Get-location
+      - name: Directory Bash
+        run: pwd
+        shell: bash # telling github to run above commands on bash not in powershell
