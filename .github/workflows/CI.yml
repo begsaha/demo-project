@@ -3,6 +3,8 @@ name: CI
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "demo-project/**"
     tag:
       -  v1.*
   pull_request:
@@ -17,21 +19,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository instead of github context dump
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-      #create the path
-      - run: mkdir -p path/to/artifact
-      - run: echo hello > path/to/artifact/myartifact.txt
+#      # Runs a single command using the runners shell
+#      - name: Run a one-line script
+#        run: echo Hello, world!
+#      #create the path
+#      - run: mkdir -p path/to/artifact
+#      - run: echo hello > path/to/artifact/myartifact.txt
       #set up the java
       - uses: actions/setup-java@v3
         with:
           distribution: 'liberica'
           java-version: '17'
+      #Build
+      - name: Build image
+        working-directory: ./demo-project
+        run: ./gradlew :luxonet-app:bootBuildImage
+
       #Build info:
       - name: Extract Docker image info
         run: |
@@ -53,6 +60,14 @@ jobs:
           repository: begsaha/${IMAGE_NAME}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      #      - name: Build and push docker image to dockerhub
+      #        env:
+      #          REGISTRY_USER: ${{ secrets.DOCKER_USERNAME }}
+      #          REGISTRY_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      #          GITHUB_ACTOR: ${{ github.actor }}
+      #          PIPELINE: CD
+      #        working-directory: ./demo-project
+      #        run: ./gradlew :src:bootBuildImage --no-daemon --publishName demo-project
 
       - name: Upload Build folder/artifact
         uses: actions/uoload-artifacts@v2
@@ -61,14 +76,7 @@ jobs:
           path: build
 
 
-#      - name: Build and push docker image to dockerhub
-#        env:
-#          REGISTRY_USER: ${{ secrets.DOCKER_USERNAME }}
-#          REGISTRY_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-#          GITHUB_ACTOR: ${{ github.actor }}
-#          PIPELINE: CD
-#        working-directory: ./demo-project
-#        run: ./gradlew :src:bootBuildImage --no-daemon --publishName demo-project
+
 
       - name: log newly committed messages
         run: |
