@@ -63,8 +63,11 @@ jobs:
           echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
           echo "IMAGE_LABELS: ${IMAGE_LABELS}"
           echo "IMAGE_LABELS=${IMAGE_LABELS}" >> $GITHUB_ENV
-
-      # Creates a  docker image
+  job_1:
+   name: Download artifact
+   needs: build
+   runs-on: ubuntu-latest
+   steps:
       - name: Build and push docker image
         runs-on: ubuntu-latest
         uses: docker/build-push-action@v2
