@@ -39,7 +39,7 @@ jobs:
           java-version: '17'
       #Build
       - name: Build_image
-        working-directory: ./demo-project
+        working-directory: .
         run: ./gradlew :demo-project:bootBuildImage
 
       #Build info:
