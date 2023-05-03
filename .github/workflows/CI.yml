@@ -37,7 +37,7 @@ jobs:
         run: |
           GIT_SHORT_SHA=$(git rev-parse --short HEAD)
           IMAGE_TAG="$(date -u +'%Y%m%d-%H%M%S')-${GIT_SHORT_SHA}"
-          IMAGE_NAME="demo-project:"
+          IMAGE_NAME="demo-project"
           IMAGE_LABELS="GCX_GIT_REPO=${GITHUB_REPOSITORY} GCX_GIT_BRANCH=${GITHUB_REF} GCX_GIT_COMMIT=${GITHUB_SHA} GCX_RUN_ID=${GITHUB_RUN_ID} GCX_RUN_NUMBER=${GITHUB_RUN_NUMBER}"
           echo "IMAGE_TAG: ${IMAGE_TAG}"
           echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
@@ -49,8 +49,8 @@ jobs:
       # Creates a  docker image
       - uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          image: begsaha/${IMAGE_NAME}
-          tags: $IMAGE_TAG
+          image: begsaha/
+          tags: $IMAGE_NAME,$IMAGE_TAG
           registry: docker.io
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
