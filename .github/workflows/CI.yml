@@ -70,11 +70,11 @@ jobs:
       #        working-directory: ./demo-project
       #        run: ./gradlew :src:bootBuildImage --no-daemon --publishName demo-project
 
-      - name: Upload Build folder/artifact
-        uses: actions/uoload-artifacts@v2
-        with:
-          name: build
-          path: build
+#      - name: Upload Build folder/artifact
+#        uses: actions/uoload-artifacts@v2
+#        with:
+#          name: build
+#          path: build
 
 
 
