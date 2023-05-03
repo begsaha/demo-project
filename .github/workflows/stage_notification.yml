@@ -22,6 +22,7 @@ jobs:
         env:
           SLACK_CHANNEL: test
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: New Commits
         with:
           text: A release is published.
           blocks: |
