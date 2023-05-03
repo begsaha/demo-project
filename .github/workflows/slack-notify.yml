@@ -15,6 +15,6 @@ jobs:
 #          SLACK_ICON: https://github.com/rtCamp.png?size=48
           SLACK_MESSAGE: 'Post Content :rocket:'
           SLACK_TITLE: Post Title
-          SLACK_MSG_AUTHOR: ${GITHUB_ACTOR}
-          SLACK_USERNAME: ${GITHUB_ACTOR}
+          SLACK_MSG_AUTHOR: $GITHUB_ACTOR
+          SLACK_USERNAME: $GITHUB_ACTOR
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
