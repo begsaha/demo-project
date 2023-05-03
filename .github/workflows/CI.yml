@@ -34,7 +34,7 @@ jobs:
           PIPELINE: CI
         with:
           arguments: ktlintCheck
-          build-root-directory: backend
+          build-root-directory: .
 
       #set up the java
       - uses: actions/setup-java@v3
