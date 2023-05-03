@@ -22,26 +22,12 @@ jobs:
         env:
           SLACK_CHANNEL: test
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_TITLE: New Commits
+          SLACK_TITLE: New Commit Message/s
         with:
           text: A release is published.
           blocks: |
             [
-              {
-                "type": "header",
-                "text": {
-                  "type": "plain_text",
-                  "text": "${{ github.event.release.tag_name}} is published!"
-                }
-              },
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Author:*\n${{ github.actor }}"
-                }
-              },
-               {
+            {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
@@ -54,12 +40,42 @@ jobs:
                   "type": "mrkdwn",
                   "text": ${{ toJSON(github.event.release.body) }}
                 }
-              },
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "${{ github.event.release.html_url }}"
-                }
               }
             ]
+#            [
+#              {
+#                "type": "header",
+#                "text": {
+#                  "type": "plain_text",
+#                  "text": "${{ github.event.release.tag_name}} is published!"
+#                }
+#              },
+#              {
+#                "type": "section",
+#                "text": {
+#                  "type": "mrkdwn",
+#                  "text": "*Author:*\n${{ github.actor }}"
+#                }
+#              },
+#               {
+#                "type": "section",
+#                "text": {
+#                  "type": "mrkdwn",
+#                  "text": "*Information:*"
+#                }
+#              },
+#              {
+#                "type": "section",
+#                "text": {
+#                  "type": "mrkdwn",
+#                  "text": ${{ toJSON(github.event.release.body) }}
+#                }
+#              },
+#              {
+#                "type": "section",
+#                "text": {
+#                  "type": "mrkdwn",
+#                  "text": "${{ github.event.release.html_url }}"
+#                }
+#              }
+#            ]
