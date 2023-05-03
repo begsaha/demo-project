@@ -1,17 +1,17 @@
 name: CI
 
 on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
   push:
     branches: [ "main" ]
-    paths:
-      - "demo-project/**"
     tag:
       -  v1.*
+    paths:
+      - "demo-project/**"
   pull_request:
     branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
 
 jobs:
@@ -29,15 +29,17 @@ jobs:
 #      #create the path
 #      - run: mkdir -p path/to/artifact
 #      - run: echo hello > path/to/artifact/myartifact.txt
+
+
       #set up the java
       - uses: actions/setup-java@v3
         with:
           distribution: 'liberica'
           java-version: '17'
       #Build
-      - name: Build image
+      - name: Build_image
         working-directory: ./demo-project
-        run: ./gradlew :luxonet-app:bootBuildImage
+        run: ./gradlew :demo-project:bootBuildImage
 
       #Build info:
       - name: Extract Docker image info
