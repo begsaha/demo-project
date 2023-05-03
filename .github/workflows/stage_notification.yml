@@ -27,13 +27,13 @@ jobs:
           text: A release is published.
           blocks: |
             [
-            {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Information:*"
-                }
-              },
+#            {
+#                "type": "section",
+#                "text": {
+#                  "type": "mrkdwn",
+#                  "text": "*Information:*"
+#                }
+#              },
               {
                 "type": "section",
                 "text": {
