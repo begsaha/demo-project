@@ -66,6 +66,7 @@ jobs:
 
       # Creates a  docker image
       - name: Build and push docker image
+        runs-on: ubuntu-latest
         uses: docker/build-push-action@v2
         with:
           repository: begsaha/${IMAGE_NAME}
