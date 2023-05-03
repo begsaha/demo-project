@@ -30,11 +30,7 @@ jobs:
 #      - run: echo hello > path/to/artifact/myartifact.txt
       - name: Run gradle command
         uses: gradle/gradle-build-action@v2
-        env:
-          PIPELINE: CI
-        with:
-          arguments: ktlintCheck
-#          build-root-directory: .
+
 
       #set up the java
       - uses: actions/setup-java@v3
