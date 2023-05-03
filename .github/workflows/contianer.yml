@@ -1,21 +1,21 @@
-name: Contianer
-on: [push]
-
-
-jobs:
-
-  node-docker:
-    runs-on: ubuntu-latest
-    container:
-      image: node:13.5.0-alpine3.10
-    steps:
-      - name: Log node version
-        run: |
-          node -v 
-          cat /etc/os-release
-      - uses: actions/checkout@v2
-      - name: send a slack message
-        uses: docker://technosophos/slack-notify
-        env:
-          SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
-          SLACK_MESSAGE: "HELLO SLACK"
+#name: Contianer
+#on: [push]
+#
+#
+#jobs:
+#
+#  node-docker:
+#    runs-on: ubuntu-latest
+#    container:
+#      image: node:13.5.0-alpine3.10
+#    steps:
+#      - name: Log node version
+#        run: |
+#          node -v
+#          cat /etc/os-release
+#      - uses: actions/checkout@v2
+#      - name: send a slack message
+#        uses: docker://technosophos/slack-notify
+#        env:
+#          SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
+#          SLACK_MESSAGE: "HELLO SLACK"
