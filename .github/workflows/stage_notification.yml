@@ -1,8 +1,8 @@
 name: ReleaseNotice
-on:
-  release:
-    types: [published]
-  workflow_dispatch:
+on: [push]
+#  release:
+#    types: [published]
+#  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
