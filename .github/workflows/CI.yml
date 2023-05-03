@@ -5,14 +5,11 @@ on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
-    paths:
-      - "demo-project/**"
-#    tag:
-#      -  v1.*
+    tag:
+      -  v1.*
   pull_request:
     branches: [ "main" ]
-    paths:
-      - "demo-project/**"
+
 
 
 
