@@ -32,9 +32,8 @@ jobs:
         with:
           distribution: 'liberica'
           java-version: '17'
-      # Creates a  docker image
-      - uses: mr-smithers-excellent/docker-build-push@v6
-        name: Build & push Docker image
+      #Build info:
+      - name: Build & push Docker image
         run: |
           GIT_SHORT_SHA=$(git rev-parse --short HEAD)
           IMAGE_TAG="$(date -u +'%Y%m%d-%H%M%S')-${GIT_SHORT_SHA}"
@@ -46,6 +45,10 @@ jobs:
           echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
           echo "IMAGE_LABELS: ${IMAGE_LABELS}"
           echo "IMAGE_LABELS=${IMAGE_LABELS}" >> $GITHUB_ENV
+
+      # Creates a  docker image
+      - uses: mr-smithers-excellent/docker-build-push@v6
+
         with:
           image: begsaha/${IMAGE_NAME}
           tags: v1, latest
