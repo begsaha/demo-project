@@ -51,20 +51,20 @@ jobs:
         with:
           arguments: build --scan
 
-      - name: Show workspace
-        run: find
-      - name: Make release archive
-        run: cd build; zip -r demo-project *
-      - name: Upload release
-        if: github.event_name == 'push'
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: "$(date -u +'%Y%m%d-%H%M%S')"
-          prerelease: true
-          title: "demo-project"
-          files: |
-            build/demo-project.zip                  
+#      - name: Show workspace
+#        run: find
+#      - name: Make release archive
+#        run: cd build; zip -r demo-project *
+#      - name: Upload release
+#        if: github.event_name == 'push'
+#        uses: marvinpinto/action-automatic-releases@latest
+#        with:
+#          repo_token: ${{ secrets.GITHUB_TOKEN }}
+#          automatic_release_tag: "$(date -u +'%Y%m%d-%H%M%S')"
+#          prerelease: true
+#          title: "demo-project"
+#          files: |
+#            build/demo-project.zip
 
       # Upload build reports
       - name: Upload build reports
