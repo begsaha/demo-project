@@ -97,13 +97,6 @@ jobs:
 #        run: git log --pretty=format:%s "$BEFORE_REF...$AFTER_REF"
 
 
-#      - name: Upload Artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: myartifact
-#          path: path/to/artifact/myartifact.txt
-##          retention-days: 5
-
 
 #
 #      - name: Release
@@ -119,19 +112,7 @@ jobs:
 
 
 
-#          release_name: Release ${{github.ref}}
-#          draft: false
-#          prerelease: false
-#
-#      - name: Upload Release Asset
-#        uses: actions/upload-release-asset@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          upload_url: ${{ steps.create_release.outputs.upload_url }}
-#          asset_path: ./build/libs/demo-project-0.0.1-SNAPSHOT.jar
-#          asset_name: demo-project-0.0.1-SNAPSHOT.jar
-#          asset_content_type: application/java-archive
+
 
 
   release-project:
@@ -151,7 +132,7 @@ jobs:
 #         exclusion: '*.git* /*node_modules/* .editorconfig'
      - name: create-release
        id: create-release
-       uses: actions/create-release@latest
+       uses: actions/create-release@v1
        env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
        with:
