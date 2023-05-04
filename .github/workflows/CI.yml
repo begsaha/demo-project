@@ -27,8 +27,8 @@ jobs:
 #      - name: Run a one-line script
 #        run: echo Hello, world!
 #      #create the path
-#      - run: mkdir -p path/to/artifact
-#      - run: echo hello > path/to/artifact/myartifact.txt
+#      - run: mkdir -p artifact
+#      - run: echo hello > artifact/myartifact.txt
       - name: Run gradle command
         uses: gradle/gradle-build-action@v2
 
@@ -71,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: demo-project
-          path: build/reports/
+          path: build/
 
 #      #Build info:
 #      - name: Extract_Docker_image_info
@@ -137,38 +137,40 @@ jobs:
 
 
 
-#  release-project:
-#   name: Download artifact
-#   needs: build
-#   runs-on: ubuntu-latest
-#   steps:
-#     - uses: actions/checkout@v3
-#     - name: Download demo project
-#       uses: actions/download-artifact@v2
-#       with:
-#         name: demo-project
-#
-#     - name: Archive site content
-#       uses: thedoctor0/zip-release@0.7.1
-#       with:
-#         filename: demo-project.zip
-#
-#     - name: create Github release
-#       id: create-release
-#       uses: actions/create-release@v1
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-#       with:
-#         tag_name: demo-project
-#         release_name: Release #v":$(date -u +'%Y%m%d-%H%M%S')"
-#
-#     - name: Upload Release Asset
-#       uses: actions/upload-release-asset@v1
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:
-#         upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-#         asset_path: ./demo-project.zip
-#         asset_name: demo-project-v "$(date -u +'%Y%m%d-%H%M%S')"
-#         asset_content_type: application/zip
+  release-project:
+   name: Download artifact
+   needs: build
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v3
+     - name: Download demo project
+       uses: actions/download-artifact@v2
+       with:
+         name: demo-project
+
+     - name: Archive site content
+       uses: thedoctor0/zip-release@0.7.1
+       with:
+         filename: demo-project.zip
+
+     - name: create Github release
+       id: create-release
+       if: github.event_name == 'push'
+       uses: actions/create-release@v1
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+       with:
+         tag_name: demo-project
+         release_name: Release #v":$(date -u +'%Y%m%d-%H%M%S')"
+
+     - name: Upload Release Asset
+       if: github.event_name == 'push'
+       uses: actions/upload-release-asset@v1
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       with:
+         upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+         asset_path: ./demo-project.zip
+         asset_name: demo-project-v "$(date -u +'%Y%m%d-%H%M%S')"
+         asset_content_type: application/zip
 
