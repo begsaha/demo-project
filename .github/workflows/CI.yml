@@ -130,6 +130,13 @@ jobs:
        uses: thedoctor0/zip-release@0.7.1
        with:
          filename: demo-project.zip
+     - uses: cgetc/create-github-release-simply@v0.1.0
+       with:
+         token: ${{ secrets.GITHUB_TOKEN }}
+         repository: ${{ begsaha/demo-project }}
+         name: v0.1.0
+#         body-path: release_body.txt
+         draft: true
 
 #     - name: create Github release
 #       id: create-release
