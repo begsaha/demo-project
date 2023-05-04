@@ -49,9 +49,22 @@ jobs:
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         with:
           arguments: build --scan
-#      - name: Build_image
-#        working-directory: .
-#        run: ./gradlew :demo-project:bootBuildImage
+
+      # Upload build reports
+      - name: Upload build reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-reports
+          path: build/reports/
+
+#      - name: Create a Release
+#        if: github.event_name == 'push' && github.reg == 'refs/heads/main'
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOCKEN: ${{secrets.CUSTOM_TOKEN}}
+#        with:
+#          tag_name: v1.0.0
 
       #Build info:
       - name: Extract Docker image info
@@ -75,29 +88,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
 
-      #      - name: Build and push docker image to dockerhub
-      #        env:
-      #          REGISTRY_USER: ${{ secrets.DOCKER_USERNAME }}
-      #          REGISTRY_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      #          GITHUB_ACTOR: ${{ github.actor }}
-      #          PIPELINE: CD
-      #        working-directory: ./demo-project
-      #        run: ./gradlew :src:bootBuildImage --no-daemon --publishName demo-project
-
-      - name: Upload build reports
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-reports
-          path: build/reports/
-
-#      - name: Upload Build folder/artifact
-#        uses: actions/uoload-artifacts@v2
-#        with:
-#          name: build
-#          path: build
-
-
-
 
       - name: log newly committed messages
         run: |
@@ -114,14 +104,7 @@ jobs:
 #          name: myartifact
 #          path: path/to/artifact/myartifact.txt
 ##          retention-days: 5
-#      - name: Create a Release
-#        if: github.event_name == 'push' && github.reg == 'refs/heads/main'
-#        id: create_release
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOCKEN: ${{secrets.CUSTOM_TOKEN}}
-#        with:
-#          tag_name: v1.0.0
+
 
 
       - name: Release
