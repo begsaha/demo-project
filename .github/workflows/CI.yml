@@ -85,11 +85,10 @@ jobs:
         if: github.event_name == 'push' && github.reg == 'refs/heads/main'
         id: create_release
         uses: actions/create-release@v1
-        release_name: new Release
         env:
           GITHUB_TOCKEN: ${{github.token}}
         with:
-          tag_name: $IMAGE_TAG}
+          tag_name: ${IMAGE_TAG}
 #
 #      - name: log newly committed messages
 #        run: |
