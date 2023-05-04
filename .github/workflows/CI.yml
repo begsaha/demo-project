@@ -14,6 +14,7 @@ on:
 
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -124,11 +125,12 @@ jobs:
        uses: actions/download-artifact@v2
        with:
          name: build-reports
+
      - name: Archive site content
        uses: thedoctor0/zip-release@0.7.1
        with:
          filename: demo-project.zip
-#         exclusion: '*.git* /*node_modules/* .editorconfig'
+
      - name: create Github release
        id: create-release
        uses: actions/create-release@v1
