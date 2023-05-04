@@ -154,6 +154,16 @@ jobs:
        with:
          filename: demo-project.zip
 
+
+     - name: Get current date
+       id: date
+       run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+     - name: Test with environment variables
+       run: echo $TAG_NAME - $RELEASE_NAME
+       env:
+         TAG_NAME: nightly-tag-${{ steps.date.outputs.date }}
+         RELEASE_NAME: nightly-release-${{ steps.date.outputs.date }}
+
      - name: create Github release
        id: create-release
        if: github.event_name == 'push'
@@ -168,10 +178,10 @@ jobs:
        if: github.event_name == 'push'
        uses: actions/upload-release-asset@v1
        env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         GITHUB_TOKEN: ${{ secrets.CUSTOM_TOKEN }}
        with:
          upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
          asset_path: ./demo-project.zip
-         asset_name: demo-project-v "$(date -u +'%Y%m%d-%H%M%S')"
+         asset_name: demo-project-v " ${{steps.date.outputs.date}}"
          asset_content_type: application/zip
 
