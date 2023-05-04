@@ -127,16 +127,19 @@ jobs:
    needs: build
    runs-on: ubuntu-latest
    steps:
+     - uses: actions/checkout@v3
      - name: Download demo project
        uses: actions/download-artifact@v2
        with:
          name: build-reports
 
-
-     - name: Archive site content
-       uses: thedoctor0/zip-release@0.7.1
-       with:
-         filename: demo-project.zip
+     - name: Build project # This would actually build your project, using zip for an example artifact
+       run: |
+         zip --junk-paths build-reports
+#     - name: Archive site content
+#       uses: thedoctor0/zip-release@0.7.1
+#       with:
+#         filename: demo-project.zip
 
 
      - name: Create Release
