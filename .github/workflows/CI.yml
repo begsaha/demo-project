@@ -84,7 +84,7 @@ jobs:
       - name: Create a Release
         if: github.event_name == 'push' && github.reg == 'refs/heads/main'
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@latest
         env:
           GITHUB_TOCKEN: ${{github.token}}
         with:
