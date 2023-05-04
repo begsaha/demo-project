@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
-    tag:
+    tags:
       -  v1.*
   pull_request:
     branches: [ "main" ]
@@ -88,7 +88,14 @@ jobs:
         env:
           GITHUB_TOCKEN: ${{github.token}}
         with:
-          tag_name: ${IMAGE_TAG}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
 #
 #      - name: log newly committed messages
 #        run: |
