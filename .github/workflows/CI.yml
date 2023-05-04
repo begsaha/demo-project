@@ -133,7 +133,7 @@ jobs:
      - uses: cgetc/create-github-release-simply@v0.1.0
        with:
          token: ${{ secrets.GITHUB_TOKEN }}
-         repository: ${{ begsaha/demo-project }}
+         repository: ${{ github.repository }}
          name: v0.1.0
 #         body-path: release_body.txt
          draft: true
