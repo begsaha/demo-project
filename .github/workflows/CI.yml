@@ -90,11 +90,11 @@ jobs:
           name: build-reports
           path: build/reports/
 
-      - name: Upload Build folder/artifact
-        uses: actions/uoload-artifacts@v2
-        with:
-          name: build
-          path: build
+#      - name: Upload Build folder/artifact
+#        uses: actions/uoload-artifacts@v2
+#        with:
+#          name: build
+#          path: build
 
 
 
