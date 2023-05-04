@@ -48,7 +48,7 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         with:
-          arguments: build
+          arguments: build --scan
 #      - name: Build_image
 #        working-directory: .
 #        run: ./gradlew :demo-project:bootBuildImage
@@ -83,6 +83,12 @@ jobs:
       #          PIPELINE: CD
       #        working-directory: ./demo-project
       #        run: ./gradlew :src:bootBuildImage --no-daemon --publishName demo-project
+
+      - name: Upload build reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-reports
+          path: build/reports/
 
       - name: Upload Build folder/artifact
         uses: actions/uoload-artifacts@v2
