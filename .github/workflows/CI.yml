@@ -85,7 +85,7 @@ jobs:
         if: github.event_name == 'push' && github.reg == 'refs/heads/main'
         id: create_release
         uses: actions/create-release@v1
-        release_name: ${IMAGE_TAG}
+        release_name: new Release
         env:
           GITHUB_TOCKEN: ${{github.token}}
         with:
