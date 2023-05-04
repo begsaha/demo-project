@@ -73,11 +73,7 @@ jobs:
           repository: begsaha/${IMAGE_NAME}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-  job_1:
-   name: Download artifact
-   needs: build
-   runs-on: ubuntu-latest
-   steps:
+
 
       #      - name: Build and push docker image to dockerhub
       #        env:
@@ -88,11 +84,11 @@ jobs:
       #        working-directory: ./demo-project
       #        run: ./gradlew :src:bootBuildImage --no-daemon --publishName demo-project
 
-#      - name: Upload Build folder/artifact
-#        uses: actions/uoload-artifacts@v2
-#        with:
-#          name: build
-#          path: build
+      - name: Upload Build folder/artifact
+        uses: actions/uoload-artifacts@v2
+        with:
+          name: build
+          path: build
 
 
 
