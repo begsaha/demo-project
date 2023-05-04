@@ -6,7 +6,7 @@ on:
   push:
     branches: [ "main" ]
     tags:
-      -  v1.*
+      -  v.*
   pull_request:
     branches: [ "main" ]
 
@@ -51,11 +51,26 @@ jobs:
         with:
           arguments: build --scan
 
+      - name: Show workspace
+        run: find
+      - name: Make release archive
+        run: cd build; zip -r demo-project *
+      - name: Upload release
+        if: github.event_name == 'push'
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Latest Build"
+          files: |
+            build/demo-project.zip                  
+
       # Upload build reports
       - name: Upload build reports
         uses: actions/upload-artifact@v3
         with:
-          name: build-reports
+          name: demo-project
           path: build/reports/
 
 #      #Build info:
@@ -122,68 +137,38 @@ jobs:
 
 
 
-  release-project:
-   name: Download artifact
-   needs: build
-   runs-on: ubuntu-latest
-   steps:
-     - uses: actions/checkout@v3
-     - name: Download demo project
-       uses: actions/download-artifact@v2
-       with:
-         name: build-reports
-
-     - name: Archive site content
-       uses: thedoctor0/zip-release@0.7.1
-       with:
-         filename: demo-project.zip
-
-
-#     - name: Create Release
-#       id: create_release
+#  release-project:
+#   name: Download artifact
+#   needs: build
+#   runs-on: ubuntu-latest
+#   steps:
+#     - uses: actions/checkout@v3
+#     - name: Download demo project
+#       uses: actions/download-artifact@v2
+#       with:
+#         name: demo-project
+#
+#     - name: Archive site content
+#       uses: thedoctor0/zip-release@0.7.1
+#       with:
+#         filename: demo-project.zip
+#
+#     - name: create Github release
+#       id: create-release
 #       uses: actions/create-release@v1
 #       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
 #       with:
-#         tag_name: ${{ github.ref }}
-#         release_name: Release ${{ github.ref }}
-#         draft: false
-#         prerelease: false
+#         tag_name: demo-project
+#         release_name: Release #v":$(date -u +'%Y%m%d-%H%M%S')"
+#
 #     - name: Upload Release Asset
-#       id: upload-release-asset
 #       uses: actions/upload-release-asset@v1
 #       env:
 #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #       with:
-#         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+#         upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
 #         asset_path: ./demo-project.zip
-#         asset_name: demo-project.zip
+#         asset_name: demo-project-v "$(date -u +'%Y%m%d-%H%M%S')"
 #         asset_content_type: application/zip
-
-
-
-
-#     - uses: ColinPitrat/update-release@v1.0.1
-#       with:
-#         token: ${{ secrets.GITHUB_TOKEN }}
-#         files: ./demo-project.zip
-
-     - name: create Github release
-       id: create-release
-       uses: actions/create-release@v1
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-       with:
-         tag_name: sudip
-         release_name: Release #v":$(date -u +'%Y%m%d-%H%M%S')"
-
-     - name: Upload Release Asset
-       uses: actions/upload-release-asset@v1
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       with:
-         upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-         asset_path: ./demo-project.zip
-         asset_name: demo-project-v "$(date -u +'%Y%m%d-%H%M%S')"
-         asset_content_type: application/zip
 
