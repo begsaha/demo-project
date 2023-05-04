@@ -57,12 +57,12 @@ jobs:
         run: cd build; zip -r demo-project *
       - name: Upload release
         if: github.event_name == 'push'
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: "$(date -u +'%Y%m%d-%H%M%S')"
           prerelease: true
-          title: "Latest Build"
+          title: "demo-project"
           files: |
             build/demo-project.zip                  
 
