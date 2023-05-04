@@ -57,17 +57,11 @@ jobs:
           name: build-reports
           path: build/reports/
 
-#      - name: Create a Release
-#        if: github.event_name == 'push' && github.reg == 'refs/heads/main'
-#        id: create_release
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOCKEN: ${{secrets.CUSTOM_TOKEN}}
-#        with:
-#          tag_name: v1.0.0
+
 
       #Build info:
-      - name: Extract Docker image info
+      - name: Extract_Docker_image_info
+        id: imageinfo
         run: |
           GIT_SHORT_SHA=$(git rev-parse --short HEAD)
           IMAGE_TAG="$(date -u +'%Y%m%d-%H%M%S')-${GIT_SHORT_SHA}"
@@ -87,7 +81,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-
+      - name: Create a Release
+        if: github.event_name == 'push' && github.reg == 'refs/heads/main'
+        id: create_release
+        uses: actions/create-release@v1
+        release_name: ${{steps.imageinfo.outputs.IMAGE_TAG}}
+        env:
+          GITHUB_TOCKEN: ${{github.token}}
+        with:
+          tag_name: ${{steps.imageinfo.outputs.IMAGE_TAG}}
 #
 #      - name: log newly committed messages
 #        run: |
