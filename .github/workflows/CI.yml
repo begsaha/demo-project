@@ -16,7 +16,6 @@ on:
 jobs:
 
   build:
-    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository instead of github context dump
@@ -141,6 +140,7 @@ jobs:
   release-project:
    name: Download artifact
    needs: build
+   permissions: write-all
    runs-on: ubuntu-latest
    steps:
      - uses: actions/checkout@v3
