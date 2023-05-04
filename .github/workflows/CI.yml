@@ -82,47 +82,9 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build project # This would actually build your project, using zip for an example artifact
-        run: |
-          zip --junk-paths my-artifact README.md
 
-      - name: Create a Release
-        if: github.event_name == 'push' && github.reg == 'refs/heads/main'
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOCKEN: ${{github.token}}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
 
-      - uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          automatic_release_tag: s{IMAGE_TAG}
-          prerelease: true
-          title: Demo-project
-          files: |
-            LICENSE.txt
-            *.jar
 
-#      - name: Upload Release Asset
-#        id: upload-release-asset
-#        uses: actions/upload-release-asset@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-#          asset_path: ./build/reports/
-#          asset_name: build-reports
-#          asset_content_type: application/zip
 #
 #      - name: log newly committed messages
 #        run: |
@@ -172,14 +134,44 @@ jobs:
 #          asset_content_type: application/java-archive
 
 
-#  job_1:
-#   name: Download artifact
-#   needs: build
-#   runs-on: ubuntu-latest
-#   steps:
-#     - name: Download a single artifact
-#       uses: actions/download-artifact@v2
-#       with:
-#         name: myartifact
-#         path: C:\Users\saha\Downloads\demo-project
+  release-project:
+   name: Download artifact
+   needs: build
+   runs-on: ubuntu-latest
+   steps:
+     - name: Download demo project
+       uses: actions/download-artifact@v2
+       with:
+         name: build-reports
+     - name: Archive site content
+       uses: thedoctor0/zip-release@0.7.1
+       with:
+         type: zip
+         filename: demo-project.zip
+#         exclusion: '*.git* /*node_modules/* .editorconfig'
+     - name: create-release
+       id: create-release
+       uses: actions/create-release@latest
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+       with:
+         tag_name: ${{ github.ref }}
+         release_name: Release ${{ github.ref }}
+         body: |
+           Changes in this Release
+           - First Change
+           - Second Change
+         draft: false
+         prerelease: false
+
+     - name: Upload Release Asset
+       id: upload-release-asset
+       uses: actions/upload-release-asset@v1
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       with:
+         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+         asset_path: ./demo-project.zip
+         asset_name: demo-project-v":$(date -u +'%Y%m%d-%H%M%S')"
+         asset_content_type: application/zip
 
