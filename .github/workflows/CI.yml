@@ -170,7 +170,7 @@ jobs:
      - name: Test with environment variables
        run: echo $TAG_NAME - $RELEASE_NAME -$HASH
        env:
-         TAG_NAME: nightly-tag-${{ steps.date1.outputs.tagDate }}
+         TAG_NAME: ${{ steps.date1.outputs.tagDate }}
          RELEASE_NAME: nightly-release-${{ steps.date1.outputs.tagDate }}
          HASH: ${{ steps.hash.outputs.hash }}
 
@@ -181,8 +181,8 @@ jobs:
        env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
        with:
-         tag_name: demo-project-v-" ${{steps.date1.outputs.tagDate}}-${{ steps.hash.outputs.hash }}"
-         release_name: release-" ${{steps.date1.outputs.tagDate}}-${{ steps.hash.outputs.hash }}"
+         tag_name: ${{github.reg}}-${{steps.date1.outputs.tagDate}}-${{ steps.hash.outputs.hash }}
+         release_name: release-${{steps.date1.outputs.tagDate}}-${{ steps.hash.outputs.hash }}
 
 
      - name: Upload Release Asset
