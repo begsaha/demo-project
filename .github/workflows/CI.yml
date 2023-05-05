@@ -140,7 +140,7 @@ jobs:
   release-project:
    name: Download artifact
    needs: build
-   permissions: read-all|write-all #need to specify the following permission scopes
+   permissions: write-all #need to specify the following permission scopes
    runs-on: ubuntu-latest
    steps:
      - uses: actions/checkout@v3
@@ -158,7 +158,7 @@ jobs:
      - name: Get current date
        id: date1
        run: |
-        echo "tagDate=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+        echo "tagDate=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
      - name: Get current date 2
        id: date
        run: |
@@ -176,8 +176,8 @@ jobs:
        env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
        with:
-#         tag_name: demo-project-v-" ${{steps.date.outputs.tagDate}}-luxonet"
-#         release_name: Release-" ${{steps.date.outputs.tagDate}}-luxonet"
+#         tag_name: demo-project-v-" ${{steps.date1.outputs.tagDate}}-luxonet"
+#         release_name: Release-" ${{steps.date1.outputs.tagDate}}-luxonet"
          tag_name: demo-project-v-" ${{env.date}}-luxonet"
          release_name: Release-" ${{env.date}}-luxonet"
 
@@ -189,7 +189,7 @@ jobs:
        with:
          upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
          asset_path: ./demo-project.zip
-#         asset_name: demo-project-v-"${{steps.date.outputs.tagDate}}"
+#         asset_name: demo-project-v-"${{steps.date1.outputs.tagDate}}"
          asset_name: demo-project-v-"${{env.date}}"
          asset_content_type: application/zip
 
