@@ -18,3 +18,6 @@ fun getVersion():String{
 fun main(args: Array<String>) {
 	runApplication<DemoProjectApplication>(*args)
 }
+
+
+
