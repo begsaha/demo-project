@@ -176,7 +176,7 @@ jobs:
          HASH: ${{ steps.hash.outputs.hash }}
 
      - name: create Github release dev
-       id: create-release
+       id: create-dev
        if: github.event_name == 'push'
        uses: actions/create-release@v1
        env:
@@ -192,7 +192,7 @@ jobs:
        env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
        with:
-         upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+         upload_url: ${{ steps.create-dev.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
          asset_path: ./demo-project.zip
          asset_name: demo-project-v-"${{steps.date1.outputs.tagDate}}"
          asset_content_type: application/zip
