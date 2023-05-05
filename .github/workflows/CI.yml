@@ -156,7 +156,7 @@ jobs:
 
 
      - name: Get current date
-       id: date
+       id: date1
        run: |
         echo "tagDate=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
      - name: Get current date 2
