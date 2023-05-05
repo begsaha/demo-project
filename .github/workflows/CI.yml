@@ -159,7 +159,15 @@ jobs:
        id: date
        run: |
         echo "tagDate=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-
+     - name: Get current date 2
+       id: date
+       run: |
+         echo "{date}={$(date ++'%Y%m%d-%H%M%S')}" >> $GITHUB_STATE
+     - name: Test with environment variables
+       run: echo $TAG_NAME - $RELEASE_NAME
+       env:
+         TAG_NAME: nightly-tag-${{ env.date }}
+         RELEASE_NAME: nightly-release-${{ env.date }}
 
      - name: create Github release
        id: create-release
@@ -168,8 +176,10 @@ jobs:
        env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
        with:
-         tag_name: demo-project-v-" ${{steps.date.outputs.tagDate}}-luxonet"
-         release_name: Release-" ${{steps.date.outputs.tagDate}}-luxonet"
+#         tag_name: demo-project-v-" ${{steps.date.outputs.tagDate}}-luxonet"
+#         release_name: Release-" ${{steps.date.outputs.tagDate}}-luxonet"
+         tag_name: demo-project-v-" ${{env.date}}-luxonet"
+         release_name: Release-" ${{env.date}}-luxonet"
 
      - name: Upload Release Asset
        if: github.event_name == 'push'
@@ -179,6 +189,7 @@ jobs:
        with:
          upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
          asset_path: ./demo-project.zip
-         asset_name: demo-project-v-"${{steps.date.outputs.tagDate}}"
+#         asset_name: demo-project-v-"${{steps.date.outputs.tagDate}}"
+         asset_name: demo-project-v-"${{env.date}}"
          asset_content_type: application/zip
 
