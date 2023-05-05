@@ -1,5 +1,5 @@
 name: ReleaseNotice
-on: push
+on: pull_request #push
 #  push:
 #    types: [published]
 #  workflow_dispatch:
@@ -42,6 +42,12 @@ jobs:
                 }
               }
             ]
+            
+            
+            
+            
+            
+
 #            [
 #              {
 #                "type": "header",

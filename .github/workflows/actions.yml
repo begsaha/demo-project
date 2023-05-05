@@ -2,18 +2,18 @@ name: Actions workflow
 
 #on: [push]
 on:
-  push:
-    branches:
-      - main
-      - 'feature/*'            #matches anything with feature/featA feature/featB
-      - 'feature/**'           #matches anything like: feature/featA/a    feature/featB/b
-      - '!feature/featC'
-    tags:
-      - v1.*
-#    path:
-#      - '**.js'    #    # this path will run the workflow only any changes in js file not other file
-#    path-ignore:
-#      - 'docs/**'
+#  push:
+#    branches:
+#      - main
+#      - 'feature/*'            #matches anything with feature/featA feature/featB
+#      - 'feature/**'           #matches anything like: feature/featA/a    feature/featB/b
+#      - '!feature/featC'
+#    tags:
+#      - v1.*
+##    path:
+##      - '**.js'    #    # this path will run the workflow only any changes in js file not other file
+##    path-ignore:
+##      - 'docs/**'
 
 
 
