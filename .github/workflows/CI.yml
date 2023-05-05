@@ -158,17 +158,16 @@ jobs:
      - name: Get current date
        id: date1
        run: |
-        echo "tagDate=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-
+        echo "tagDate=$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_OUTPUT
      - name: Get current date 2
        id: date
        run: |
-         echo "{date}={$(date ++'%Y-%m-%d')}" >> $GITHUB_STATE
+         echo "{date}={$(date +'%Y%m%d-%H%M%S')}" >> $GITHUB_STATE
      - name: Test with environment variables
        run: echo $TAG_NAME - $RELEASE_NAME
        env:
          TAG_NAME: nightly-tag-${{ steps.date1.outputs.tagDate }}
-         RELEASE_NAME: nightly-release-${{steps.date1.outputs.tagDate}}
+         RELEASE_NAME: nightly-release-${{ steps.date1.outputs.tagDate }}
 
      - name: create Github release
        id: create-release
@@ -177,10 +176,9 @@ jobs:
        env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
        with:
-#         tag_name: demo-project-v-" ${{steps.date1.outputs.tagDate}}-luxonet"
-#         release_name: Release-" ${{steps.date1.outputs.tagDate}}-luxonet"
-         tag_name: demo-project-v-" ${{env.date}}-luxonet"
-         release_name: Release-" ${{env.date}}-luxonet"
+         tag_name: demo-project-v-" ${{steps.date1.outputs.tagDate}}-luxonet"
+         release_name: Release-" ${{steps.date1.outputs.tagDate}}-luxonet"
+
 
      - name: Upload Release Asset
        if: github.event_name == 'push'
@@ -190,7 +188,6 @@ jobs:
        with:
          upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
          asset_path: ./demo-project.zip
-#         asset_name: demo-project-v-"${{steps.date1.outputs.tagDate}}"
-         asset_name: demo-project-v-"${{env.date}}"
+         asset_name: demo-project-v-"${{steps.date1.outputs.tagDate}}"
          asset_content_type: application/zip
 
