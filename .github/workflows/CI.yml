@@ -219,4 +219,3 @@ jobs:
          asset_name: demo-project-v-"${{steps.date1.outputs.tagDate}}"
          asset_content_type: application/zip
 
-#
