@@ -140,7 +140,7 @@ jobs:
   release-project:
    name: Download artifact
    needs: build
-   permissions: write-all #need to specify the following permission scopes
+   permissions: read-all|write-all #need to specify the following permission scopes
    runs-on: ubuntu-latest
    steps:
      - uses: actions/checkout@v3
