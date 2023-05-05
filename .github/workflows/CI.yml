@@ -219,3 +219,39 @@ jobs:
          asset_name: demo-project-v-"${{steps.date1.outputs.tagDate}}"
          asset_content_type: application/zip
 
+     - name: Deployment
+       id: deployment
+       run: |
+        echo "deployment=deployed" >> $GITHUB_OUTPUT 
+         
+
+     - name: Slack Notification on SUCCESS
+       if: success() & ${{steps.deployment.outputs.deployment}}=='deployed'
+       uses: rtCamp/action-slack-notify@v2
+       #        uses: tokorom/action-slack-incoming-webhook@main
+       env:
+         SLACK_CHANNEL: test
+         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+         SLACK_TITLE: New Commit Message/s
+       with:
+         text: A release is published.
+         blocks: |
+           [
+           {
+               "type": "section",
+               "text": {
+                 "type": "mrkdwn",
+                 "text": "*Information:*"
+               }
+             },
+             {
+               "type": "section",
+               "text": {
+                 "type": "mrkdwn",
+                 "text": ${{ toJSON(github.event.release.body) }}
+               }
+               }
+             ]
+         
+                
+
