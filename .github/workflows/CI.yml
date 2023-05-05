@@ -29,8 +29,8 @@ jobs:
 #      #create the path
 #      - run: mkdir -p artifact
 #      - run: echo hello > artifact/myartifact.txt
-      - name: Run gradle command
-        uses: gradle/gradle-build-action@v2
+#      - name: Run gradle command
+#        uses: gradle/gradle-build-action@v2
 
 
       #set up the java
@@ -71,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: demo-project
-          path: build/
+          path: build/libs
 
 #      #Build info:
 #      - name: Extract_Docker_image_info
