@@ -1,6 +1,9 @@
 name: CI
 
 on:
+  workflow_call:
+    inputs:
+      environment: [dev, stage]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   push:
@@ -168,15 +171,37 @@ jobs:
 #       run: |
 #         echo "{date}={$(date +'%Y%m%d-%H%M%S')}" >> $GITHUB_STATE
      - name: Test with environment variables
-       run: echo $TAG_NAME - $RELEASE_NAME -$HASH
+       run: echo $TAG_NAME - $RELEASE_NAME -$HASH -${{ inputs.environment }}
        env:
          TAG_NAME: ${{ steps.date1.outputs.tagDate }}
          RELEASE_NAME: nightly-release-${{ steps.date1.outputs.tagDate }}
          HASH: ${{ steps.hash.outputs.hash }}
 
-     - name: create Github release
+     - name: create Github release dev
        id: create-release
        if: github.event_name == 'push'
+       uses: actions/create-release@v1
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+       with:
+         tag_name: ${{steps.date1.outputs.tagDate}}-${{ steps.hash.outputs.hash }}
+         release_name: release-${{steps.date1.outputs.tagDate}}-${{ steps.hash.outputs.hash }}
+
+
+     - name: Upload Release Asset dev
+       if: github.event_name == 'pull_request'
+       uses: actions/upload-release-asset@v1
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       with:
+         upload_url: ${{ steps.create-release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+         asset_path: ./demo-project.zip
+         asset_name: demo-project-v-"${{steps.date1.outputs.tagDate}}"
+         asset_content_type: application/zip
+
+     - name: create Github release
+       id: create-release
+       if: github.event_name == 'pull_request'
        uses: actions/create-release@v1
        env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
