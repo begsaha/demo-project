@@ -158,16 +158,21 @@ jobs:
      - name: Get current date
        id: date1
        run: |
-        echo "tagDate=$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_OUTPUT
-     - name: Get current date 2
-       id: date
+        echo "tagDate=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
+     - name: Get the hash
+       id: hash
        run: |
-         echo "{date}={$(date +'%Y%m%d-%H%M%S')}" >> $GITHUB_STATE
+        echo "hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+#     - name: Get current date 2
+#       id: date
+#       run: |
+#         echo "{date}={$(date +'%Y%m%d-%H%M%S')}" >> $GITHUB_STATE
      - name: Test with environment variables
-       run: echo $TAG_NAME - $RELEASE_NAME
+       run: echo $TAG_NAME - $RELEASE_NAME -$HASH
        env:
          TAG_NAME: nightly-tag-${{ steps.date1.outputs.tagDate }}
          RELEASE_NAME: nightly-release-${{ steps.date1.outputs.tagDate }}
+         HASH: ${{ steps.hash.outputs.hash }}
 
      - name: create Github release
        id: create-release
@@ -176,8 +181,8 @@ jobs:
        env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
        with:
-         tag_name: demo-project-v-" ${{steps.date1.outputs.tagDate}}-luxonet"
-         release_name: Release-" ${{steps.date1.outputs.tagDate}}-luxonet"
+         tag_name: demo-project-v-" ${{steps.date1.outputs.tagDate}}-${{ steps.hash.outputs.hash }}"
+         release_name: release-" ${{steps.date1.outputs.tagDate}}-${{ steps.hash.outputs.hash }}"
 
 
      - name: Upload Release Asset
